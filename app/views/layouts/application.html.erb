@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NinetyNineCatsDay1</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <% if flash.now[:error] %>
+    <%= flash.now[:error].each do |error| %>
+      <p> ERROR: <%= error %> </p>
+    <% end %>
+  <% end %>
+  <% if current_user %>
+  <h2> Hello <%= current_user.user_name %>! </h2>
+  <form action="<%= session_url(current_user) %>" method="POST">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name= "authenticity_token" value= <%= form_authenticity_token  %> >
+    <input type="submit" value="Logout"></form>
+  <% else %>
+  <form action="<%= new_session_url %>" method="GET">
+    <input type="hidden" name= "authenticity_token" value= <%= form_authenticity_token  %> >
+    <input type="submit" value="Login"></form>
+  <% end %>
+
+<%= yield %>
+
+</body>
+</html>
